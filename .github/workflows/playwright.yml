@@ -32,6 +32,6 @@ jobs:
         uses: act10ns/slack@v1
         with:
           status: ${{ job.status }}
-          channel: "#meetups"
+          channel: "#github-actions"
           message: Deployed {{ env.GITHUB_REF_NAME }} branch Successfully
         if: always()
