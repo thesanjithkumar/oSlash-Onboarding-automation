@@ -8,11 +8,13 @@ const serverDomain = "oslash.mailosaur.net"
 test("sample oslash onboarding automation", async ({ page }) => {
   const MailosaurClient = require('mailosaur')
   const mailosaur = new MailosaurClient(apiKEY)
+  let name = (Math.random() + 1).toString(36).substring(7);
+
   const searchCriteria = {
-    sentTo: 'SampleOslash@' + serverDomain
+    sentTo: name + "@" + serverDomain
   }
   await page.goto("https://app.oslash.com/login");
-  await page.getByPlaceholder("name@email.com").fill('SampleOslash@' + serverDomain);
+  await page.getByPlaceholder("name@email.com").fill(name + "@" + serverDomain);
   await page.getByRole("button", { name: "Send" }).click();
   const message = await mailosaur.messages.get(serverId, searchCriteria)
   const dom = new JSDOM(message.html.body);
@@ -29,6 +31,6 @@ test("sample oslash onboarding automation", async ({ page }) => {
   await page.getByPlaceholder("Paste the full URL of the page you").fill("https://sanjithkumar.tech");
   await page.getByPlaceholder("Something to describe").fill("Personal Website");
   await page.getByRole("button", { name: "Create", exact: true }).click();
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(2500);
   await page.screenshot({ path: "sample-shortcut.png", fullPage: true });
 });
