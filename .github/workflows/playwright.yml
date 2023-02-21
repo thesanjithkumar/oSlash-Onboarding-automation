@@ -8,6 +8,9 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,3 +28,10 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+      - name: Slack Notification
+        uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          channel: "#meetups"
+          message: Deployed {{ env.GITHUB_REF_NAME }} branch Successfully
+        if: always()

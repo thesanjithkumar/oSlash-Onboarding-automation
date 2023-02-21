@@ -9,10 +9,10 @@ test("sample oslash onboarding automation", async ({ page }) => {
   const MailosaurClient = require('mailosaur')
   const mailosaur = new MailosaurClient(apiKEY)
   const searchCriteria = {
-    sentTo: 'OslahSample@' + serverDomain
+    sentTo: 'SampleOslash@' + serverDomain
   }
   await page.goto("https://app.oslash.com/login");
-  await page.getByPlaceholder("name@email.com").fill('OslahSample@' + serverDomain);
+  await page.getByPlaceholder("name@email.com").fill('SampleOslash@' + serverDomain);
   await page.getByRole("button", { name: "Send" }).click();
   const message = await mailosaur.messages.get(serverId, searchCriteria)
   const dom = new JSDOM(message.html.body);
